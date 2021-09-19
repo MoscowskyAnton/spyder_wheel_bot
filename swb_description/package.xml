@@ -1,5 +1,5 @@
 <package format="2">
-  <name>leg_description</name>
+  <name>swb_description</name>
   <version>1.0.0</version>
   <description>
     <p>URDF Description package for leg_description</p>

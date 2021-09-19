@@ -1,19 +1,33 @@
 <?xml version="1.0"?>
 <launch>
   <arg name="robot" default="swb"/>
+  <arg name="paused" default="false"/>
 
   <include
-    file="$(find gazebo_ros)/launch/empty_world.launch" />
+    file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="paused" value="$(arg paused)"/>
+  </include>
 	
-  <node
+  <!--<node
     name="tf_base_map"
     pkg="tf"
     type="static_transform_publisher"
-    args="0 0 0 0 0 0 base_link map 100" />
-	
-	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find swb_description)/urdf/swb_description.urdf.xacro'"/>
+    args="0 0 0 0 0 0 base_link 100" />-->
+  <group ns="$(arg robot)">
+        <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find swb_description)/urdf/swb_description.urdf.xacro'"/>
+        
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+            <param name="use_gui" value="False"/>
+        </node> 
+        
+        <node
+        name="robot_state_publisher"
+        pkg="robot_state_publisher"
+        type="robot_state_publisher" />
+  
+  </group>
 
   <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" 
-    args="-param robot_description -urdf -z 0.4 -x 0 -y 0 -Y 0 -model $(arg robot)" /> 
+    args="-param $(arg robot)/robot_description -urdf -z 0.4 -x 0 -y 0 -Y 0 -model $(arg robot)" /> 
   
 </launch>
