@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="SWB" >
+
+	<xacro:include filename="$(find swb_description)/urdf/leg_description.urdf"/>	
+	
+	<xacro:property name="leg_x_shift" value="0.20"/>
+	<xacro:property name="leg_y_shift" value="0.20"/>
+	
+	
+	<link name="base_link"/>
+	
+	<xacro:swb_leg name="fl"/>
+	<xacro:swb_leg name="fr"/>
+	<xacro:swb_leg name="bl"/>
+	<xacro:swb_leg name="br"/>
+	
+	<joint name="base_to_fl_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="fl_leg_base_link"/>
+        
+        <origin xyz="${leg_x_shift} ${leg_y_shift} 0" rpy="0 0 ${pi/4}"/>
+    </joint>
+	
+	<joint name="base_to_fr_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="fr_leg_base_link"/>
+        
+        <origin xyz="-${leg_x_shift} ${leg_y_shift} 0" rpy="0 0 -${pi/4}"/>
+    </joint>
+	
+	<joint name="base_to_bl_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="bl_leg_base_link"/>
+        
+        <origin xyz="${leg_x_shift} -${leg_y_shift} 0" rpy="0 0 ${pi/4 + pi}"/>
+    </joint>
+	
+	<joint name="base_to_br_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="br_leg_base_link"/>
+        
+        <origin xyz="-${leg_x_shift} -${leg_y_shift} 0" rpy="0 0 -${pi/4 + pi}"/>
+    </joint>
+	
+	
+	
+	
+
+
+</robot>
+	
